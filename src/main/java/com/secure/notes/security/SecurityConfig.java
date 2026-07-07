@@ -15,15 +15,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain customFilterChain(HttpSecurity http) throws Exception{
         http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/contact").permitAll()
-                        .requestMatchers("/admin").denyAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(session ->session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(Customizer.withDefaults());
+            .authorizeHttpRequests(auth -> auth
+                    .anyRequest().authenticated());
+            http.csrf(csrf -> csrf.disable());
+            http.httpBasic(Customizer.withDefaults());
         return http.build();
     }
-
 }
